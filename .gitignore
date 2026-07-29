@@ -39,3 +39,16 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# ai tooling config (installed by prisma cli)
+.agents/
+.claude/
+.windsurf/
+skills-lock.json
+AGENTS.md
+CLAUDE.md
+
+/src/generated/prisma
+
+# random bs lolol
+dark_grey_theme_preview.html
