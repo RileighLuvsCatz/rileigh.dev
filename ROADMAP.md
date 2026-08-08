@@ -32,6 +32,7 @@
 - [ ] Build calendar heatmap component (GitHub-style contribution graph)
 - [ ] Build stats / summary view (totals, streaks, trends)
 - [ ] Seed mock data for GitHub, LeetCode, and job trackers
+- [x] set up testing branch to preview changes before deployment
 
 ### 1.3 Portfolio Page (`/projects`)
 - [ ] Build project card component (title, description, tags, links)

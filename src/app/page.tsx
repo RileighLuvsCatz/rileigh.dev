@@ -1,11 +1,5 @@
-import Link from "next/link";
 import SocialLinks from "@/components/social-links";
-
-const navLinks = [
-  { href: "/projects", label: "work" },
-  { href: "/blog", label: "writing" },
-  { href: "/progress", label: "trackers" },
-];
+import SiteHeader from "@/components/site-header";
 
 export default function Home() {
   return (
@@ -17,16 +11,7 @@ export default function Home() {
           <span className="w-2.5 h-2.5 rounded-full bg-muted" />
         </div>
         <div className="p-7">
-          <header className="flex items-center justify-between mb-8 text-sm">
-            <span className="font-medium">rileigh.dev</span>
-            <nav className="flex gap-4 text-muted">
-              {navLinks.map((link) => (
-                <Link key={link.href} href={link.href} className="hover:text-foreground transition-colors">
-                  {link.label}
-                </Link>
-              ))}
-            </nav>
-          </header>
+          <SiteHeader />
 
           <h1 className="text-[28px] font-medium mb-3 tracking-tight">
             hey, I&apos;m Rileigh
