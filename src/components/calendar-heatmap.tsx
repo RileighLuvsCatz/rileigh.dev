@@ -34,7 +34,7 @@ interface Week {
 export default function CalendarHeatmap({
   events,
   unit,
-  weeks = 4,
+  weeks = 26,
 }: {
   events: TrackerEvent[];
   unit: string;
