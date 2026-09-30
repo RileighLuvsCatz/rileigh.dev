@@ -1,5 +1,6 @@
 import Link from "next/link";
 import SocialLinks from "@/components/social-links";
+import styles from "./home.module.css";
 
 const navLinks = [
   { href: "/projects", label: "work" },
@@ -9,50 +10,59 @@ const navLinks = [
 
 export default function Home() {
   return (
-    <div className="flex flex-col flex-1 items-center justify-center px-8 md:px-16 lg:px-32 py-8">
-      <div className="w-full border border-border rounded-lg overflow-hidden">
-        <div className="bg-surface flex items-center gap-1.5 px-3 py-2">
-          <span className="w-2.5 h-2.5 rounded-full bg-muted" />
-          <span className="w-2.5 h-2.5 rounded-full bg-muted" />
-          <span className="w-2.5 h-2.5 rounded-full bg-muted" />
+    <main className={styles.page}>
+      <div className={styles.terminal}>
+        <div className={styles.chrome} aria-hidden="true">
+          <span /><span /><span />
+          <span className={styles.chromeLabel}>~/rileigh.dev</span>
         </div>
-        <div className="p-7">
-          <header className="flex items-center justify-between mb-8 text-sm">
-            <span className="font-medium">rileigh.dev</span>
-            <nav className="flex gap-4 text-muted">
+
+        <div className={styles.content}>
+          <header className={styles.header}>
+            <span className={styles.brand}>rileigh.dev<span className={styles.cursor}>_</span></span>
+            <nav aria-label="Main navigation" className={styles.nav}>
               {navLinks.map((link) => (
-                <Link key={link.href} href={link.href} className="hover:text-foreground transition-colors">
-                  {link.label}
-                </Link>
+                <Link key={link.href} href={link.href}>{link.label}</Link>
               ))}
             </nav>
           </header>
 
-          <h1 className="text-[28px] font-medium mb-3 tracking-tight">
-            hey, I&apos;m Rileigh
-          </h1>
-          <p className="text-sm leading-relaxed text-muted mb-6 max-w-[440px]">
-            I build things and write about them here. currently tracking a few habits I&apos;m trying to stick with.
-          </p>
+          <div className={styles.introGrid}>
+            <section className={styles.intro} aria-labelledby="intro-title">
+              <p className={styles.prompt}><span aria-hidden="true">&gt;</span> hello_world</p>
+              <h1 id="intro-title">hey, I&apos;m Rileigh<span className={styles.accent}>.</span></h1>
+              <p className={styles.description}>
+                I build things and write about them here. currently tracking a few habits I&apos;m trying to stick with.
+              </p>
 
-          <div className="flex items-center gap-4 mb-6">
-            <SocialLinks />
-            <a
-              href="/resume.pdf"
-              className="text-xs px-3 py-1.5 rounded-md border border-border text-muted hover:text-foreground hover:border-foreground transition-colors"
-            >
-              resume
-            </a>
+              <div className={styles.actions}>
+                <SocialLinks />
+                <a href="/resume.pdf" className={styles.resume}>resume <span aria-hidden="true">↗</span></a>
+              </div>
+            </section>
+
+            <aside className={styles.portrait} aria-label="Space reserved for a future illustrated portrait">
+              <div className={styles.portraitTop}><span>FIG. 01</span><span>SELF-PORTRAIT</span></div>
+              <div className={styles.portraitFrame}>
+                <span className={styles.sigilLeft} aria-hidden="true" />
+                <span className={styles.sigilRight} aria-hidden="true" />
+                <div className={styles.portraitPlaceholder}>
+                  <span>illustration goes here</span>
+                </div>
+              </div>
+              <p className={styles.portraitCaption}>{"// awaiting artwork"}</p>
+            </aside>
           </div>
 
-          <div className="border border-border rounded-lg p-4 mb-5">
-            <p className="text-xs text-muted mb-1">latest post</p>
-            <p className="text-sm leading-snug">
+          <div className={styles.latest}>
+            <div className={styles.latestHeading}><span>writing.log</span><span>001 / pending</span></div>
+            <p>
               Placeholder for latest post. I&apos;m not sure what I want to write about yet, but I&apos;ll figure that out eventually.
             </p>
           </div>
+          <p className={styles.endline} aria-hidden="true">&lt;/home&gt; <span>✳</span></p>
         </div>
       </div>
-    </div>
+    </main>
   );
 }
