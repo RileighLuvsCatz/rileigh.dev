@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import SocialLinks from "@/components/social-links";
 import styles from "./home.module.css";
 
@@ -41,16 +42,21 @@ export default function Home() {
               </div>
             </section>
 
-            <aside className={styles.portrait} aria-label="Space reserved for a future illustrated portrait">
+            <aside className={styles.portrait} aria-label="Illustrated self-portrait">
               <div className={styles.portraitTop}><span>FIG. 01</span><span>SELF-PORTRAIT</span></div>
               <div className={styles.portraitFrame}>
                 <span className={styles.sigilLeft} aria-hidden="true" />
                 <span className={styles.sigilRight} aria-hidden="true" />
-                <div className={styles.portraitPlaceholder}>
-                  <span>illustration goes here</span>
-                </div>
+                <Image
+                  src="/SketchOfMe-white.png"
+                  alt="White line drawing of Rileigh wearing glasses"
+                  width={460}
+                  height={491}
+                  className={styles.portraitImage}
+                  sizes="(max-width: 480px) 75vw, 250px"
+                />
               </div>
-              <p className={styles.portraitCaption}>{"// awaiting artwork"}</p>
+              <p className={styles.portraitCaption}>{"// sketch of me"}</p>
             </aside>
           </div>
 
