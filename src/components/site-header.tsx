@@ -1,4 +1,5 @@
 import Link from "next/link";
+import NowPlaying from "@/components/now-playing";
 
 const navLinks = [
   { href: "/projects", label: "work" },
@@ -8,11 +9,11 @@ const navLinks = [
 
 export default function SiteHeader() {
   return (
-    <header className="flex items-center justify-between mb-8 text-sm">
+    <header className="flex flex-wrap items-center justify-between gap-4 mb-8 text-sm">
       <Link href="/" className="font-medium hover:text-muted transition-colors">
         rileigh.dev
       </Link>
-      <nav className="flex gap-4 text-muted">
+      <nav aria-label="Main navigation" className="flex items-center gap-4 text-muted">
         {navLinks.map((link) => (
           <Link
             key={link.href}
@@ -22,6 +23,7 @@ export default function SiteHeader() {
             {link.label}
           </Link>
         ))}
+        <NowPlaying />
       </nav>
     </header>
   );
