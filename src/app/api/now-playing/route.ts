@@ -1,10 +1,11 @@
-import { parseListeningStatus } from "@/lib/lastfm";
+import { parseListeningStatus, type ListeningStatus } from "@/lib/lastfm";
 
 export async function GET() {
   const headers = { "Cache-Control": "no-store" };
-  const idle = () => Response.json({ listening: false }, { headers });
-  const apiKey = process.env.LASTFM_API_KEY;
-  if (!apiKey) return idle();
+  const unavailable = (reason: Extract<ListeningStatus, { listening: false }>["reason"], upstreamStatus?: number) =>
+    Response.json({ listening: false, reason, ...(upstreamStatus === undefined ? {} : { upstreamStatus }) }, { headers });
+  const apiKey = process.env.LASTFM_API_KEY?.trim();
+  if (!apiKey) return unavailable("missing_api_key");
 
   const url = new URL("https://ws.audioscrobbler.com/2.0/");
   url.search = new URLSearchParams({
@@ -17,12 +18,23 @@ export async function GET() {
 
   try {
     const response = await fetch(url, {
-      next: { revalidate: 30 },
+      cache: "no-store",
       signal: AbortSignal.timeout(5000),
     });
-    if (!response.ok) return idle();
-    return Response.json(parseListeningStatus(await response.json()), { headers });
-  } catch {
-    return idle();
+    let data: unknown;
+    try {
+      data = await response.json();
+    } catch {
+      return unavailable(response.ok ? "invalid_response" : "http_error", response.status);
+    }
+    const status = parseListeningStatus(data);
+    // Last.fm can return an API error in a JSON body even for HTTP 200 responses.
+    if (!status.listening && status.reason === "lastfm_api_error") {
+      return Response.json(status, { headers });
+    }
+    if (!response.ok) return unavailable("http_error", response.status);
+    return Response.json(status, { headers });
+  } catch (error) {
+    return unavailable(error instanceof Error && error.name === "TimeoutError" ? "timeout" : "request_failed");
   }
 }

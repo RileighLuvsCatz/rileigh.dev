@@ -28,14 +28,26 @@ test("does not treat the last scrobbled song as currently playing", () => {
   assert.deepEqual(parseListeningStatus(recent([{ ...track, "@attr": { nowplaying: "false" } }])), { listening: false });
 });
 
-test("falls back to idle for empty, error, and malformed responses", () => {
-  for (const data of [null, {}, { error: 10 }, recent([]), recent(null), recent([null]), recent([{}]), recent([{ ...track, artist: {} }]), recent([{ ...track, name: " " }])]) {
-    assert.deepEqual(parseListeningStatus(data), { listening: false });
+test("an empty track list is idle", () => {
+  assert.deepEqual(parseListeningStatus(recent([])), { listening: false });
+});
+
+test("distinguishes API errors from idle without exposing upstream messages", () => {
+  for (const error of [10, 17, 29]) {
+    assert.deepEqual(parseListeningStatus({ error, message: "private upstream details" }), {
+      listening: false, reason: "lastfm_api_error", lastfmErrorCode: error,
+    });
+  }
+});
+
+test("distinguishes malformed responses from idle", () => {
+  for (const data of [null, {}, recent(null), recent([null]), recent([{}]), recent([{ ...track, artist: {} }]), recent([{ ...track, name: " " }])]) {
+    assert.deepEqual(parseListeningStatus(data), { listening: false, reason: "invalid_response" });
   }
 });
 
 test("rejects unsafe or unrelated track links", () => {
   for (const url of ["javascript:alert(1)", "https://example.com/music/song", "https://www.last.fm.evil.test/music/song", "https://www.last.fm/user/someone", "not a URL", "https://name:password@www.last.fm/music/song"]) {
-    assert.deepEqual(parseListeningStatus(recent([{ ...track, url }])), { listening: false });
+    assert.deepEqual(parseListeningStatus(recent([{ ...track, url }])), { listening: false, reason: "invalid_response" });
   }
 });

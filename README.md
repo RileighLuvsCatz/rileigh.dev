@@ -14,7 +14,14 @@ environment variables (including the testing/preview environment). Restart the
 development server or redeploy after adding it. Keep the key server-side; do not
 use a `NEXT_PUBLIC_` prefix or commit it.
 
-The browser refreshes every 30 seconds, and the server caches Last.fm responses
-for 30 seconds. Missing keys, API errors, and timeouts use the idle profile link.
+The browser refreshes every 30 seconds, and the server requests fresh Last.fm data
+without caching. Missing keys, API errors, and timeouts keep the profile link but
+show "listening status unavailable" instead of claiming Rileigh is idle.
 
-Run `node --test tests/lastfm.test.mjs` with Node.js 22.18+ to check Last.fm response handling.
+To troubleshoot, open `/api/now-playing` on the preview deployment while signed
+into Vercel. A genuine idle response is `{"listening":false}`. Unavailable responses
+include a safe `reason`: `missing_api_key`, `lastfm_api_error` (with a numeric
+`lastfmErrorCode`), `http_error` (with `upstreamStatus`), `invalid_response`, `timeout`,
+or `request_failed`. The response never includes the API key or upstream error text.
+
+Run `node --test tests/*.test.mjs` with Node.js 22.18+ to check Last.fm response handling and endpoint failures.
