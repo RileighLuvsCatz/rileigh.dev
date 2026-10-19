@@ -43,7 +43,7 @@
 .header { display: flex; justify-content: space-between; align-items: center; gap: 18px; }
 .brand { font-size: 13px; font-weight: 600; }
 .cursor { color: var(--accent); margin-left: 2px; }
-.nav { display: flex; flex-wrap: wrap; gap: clamp(12px, 2vw, 24px); color: #a1a1aa; font-size: 12px; }
+.nav { display: flex; align-items: center; flex-wrap: wrap; gap: clamp(12px, 2vw, 24px); color: #a1a1aa; font-size: 12px; }
 .nav a:hover { color: var(--accent); }
 .nav a:focus-visible, .resume:focus-visible { outline: 1px solid var(--accent); outline-offset: 4px; }
 

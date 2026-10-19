@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import SocialLinks from "@/components/social-links";
+import NowPlaying from "@/components/now-playing";
 import styles from "./home.module.css";
 
 const navLinks = [
@@ -25,6 +26,7 @@ export default function Home() {
               {navLinks.map((link) => (
                 <Link key={link.href} href={link.href}>{link.label}</Link>
               ))}
+              <NowPlaying />
             </nav>
           </header>
 
